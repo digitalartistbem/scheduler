@@ -19,7 +19,7 @@ MATH1	Calculus	07:30 AM - 09:00 AM	MTH	Rm104	-	-	-	-	-	CS1A	A	50	Brown
 PHY1	Physics	02:00 PM - 03:00 PM	TF	Rm105	03:00 PM - 04:30 PM	TF	Lab3	-	-	IT1B	B	40	Davis`;
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadSampleData(); 
+    loadSampleData(true); 
 });
 
 function switchTab(tabName) {
@@ -34,9 +34,9 @@ function switchTab(tabName) {
     });
 }
 
-function loadSampleData() {
+function loadSampleData(silent = false) {
     document.getElementById('teacher-data-input').value = sampleTeacherData;
-    loadTeacherData();
+    loadTeacherData(silent);
 }
 
 function parseRawData(raw) {
@@ -105,7 +105,7 @@ function loadTeacherTemplate() {
     document.getElementById('teacher-data-input').value = `S-Code	Description	Lec Time	Lec Day	Lec Room	Lab Time	Lab Day	Lab Room	ins id	ins name	COURSE	block	capacity	Assigned Teacher`;
 }
 
-function loadTeacherData() {
+function loadTeacherData(silent = false) {
     const raw = document.getElementById('teacher-data-input').value.trim();
     teacherData = parseRawData(raw);
     teacherSelection.clear();
@@ -114,8 +114,10 @@ function loadTeacherData() {
     populateFilters();
     renderTeacherView();
     updateStats();
-    alert("Master Data Loaded!");
-    switchTab('teacher');
+    if (!silent) {
+        alert("Master Data Loaded!");
+        switchTab('teacher');
+    }
 }
 
 // --- Student View Logic ---
