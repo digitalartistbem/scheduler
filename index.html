@@ -12,15 +12,15 @@
     <nav class="no-print">
         <h1>Ultimate Scheduler</h1>
         <div class="tabs">
-            <button onclick="switchTab('student')" class="active">Student View</button>
+            <button onclick="switchTab('student')">Student View</button>
             <button onclick="switchTab('teacher')">Teacher View</button>
-            <button onclick="switchTab('data')">Data Import</button>
+            <button onclick="switchTab('data')" class="active">Data Import</button>
         </div>
         <button onclick="window.print()" class="print-btn">Print Schedule</button>
     </nav>
 
     <!-- Student View -->
-    <main id="student-view" class="view active">
+    <main id="student-view" class="view">
         <div class="header-info">
             <h2>Weekly Class Schedule</h2>
             <p>Generated View</p>
@@ -119,7 +119,7 @@
     </main>
 
     <!-- Data Import -->
-    <main id="data-view" class="view">
+    <main id="data-view" class="view active">
         <h2>Import Schedule Data</h2>
         <div class="import-container">
             <div class="import-box">
