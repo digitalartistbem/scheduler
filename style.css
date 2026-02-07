@@ -1,0 +1,286 @@
+:root {
+    --primary: #2c3e50;       /* Dark Blue */
+    --accent: #3498db;        /* Bright Blue */
+    --success: #27ae60;       /* Green */
+    --warning: #f39c12;       /* Orange */
+    --bg: #f0f2f5;            /* Light Gray */
+    --border: #e1e4e8;
+    --card-bg: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: var(--bg);
+    color: #333;
+}
+
+/* Navigation */
+nav {
+    background: linear-gradient(135deg, var(--primary), #34495e);
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.tabs button {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+}
+
+.tabs button.active {
+    color: white;
+    border-bottom: 2px solid var(--accent);
+    font-weight: bold;
+}
+
+.print-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Layout */
+main {
+    padding: 20px;
+    display: none;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main.active {
+    display: block;
+}
+
+/* Calendar Grid */
+.calendar-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: 60px repeat(6, 1fr);
+    background: #f8f9fa;
+    font-weight: bold;
+    text-align: center;
+}
+
+.calendar-header div {
+    padding: 10px;
+    border-right: 1px solid var(--border);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: 60px repeat(6, 1fr);
+    /* Rows represent 30 minute blocks starting from 7:00 AM to 9:00 PM */
+    grid-template-rows: repeat(30, 30px); 
+    position: relative;
+    overflow-y: auto;
+}
+
+/* Time Labels Column */
+.time-slot {
+    grid-column: 1;
+    font-size: 0.8rem;
+    text-align: right;
+    padding-right: 5px;
+    color: #666;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Grid Lines */
+.grid-line {
+    border-bottom: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
+}
+
+/* Class Blocks */
+.class-block {
+    padding: 2px;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    margin: 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.8);
+    line-height: 1.1;
+}
+
+.class-block strong { display: block; font-size: 0.75rem; margin-bottom: 1px; }
+.class-block span { font-size: 0.65rem; opacity: 0.95; }
+
+/* Teacher View */
+.controls {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    text-align: left;
+}
+
+td input[type="checkbox"] {
+    transform: scale(1.5);
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Stats Dashboard */
+.stats-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-left: 4px solid var(--accent);
+}
+
+.stat-card h3 { margin: 0 0 5px 0; font-size: 0.9rem; color: #666; }
+.stat-card p { margin: 0; font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+.stat-card small { font-size: 0.8rem; color: #888; }
+
+.stat-card.success { border-left-color: var(--success); }
+.stat-card.warning { border-left-color: var(--warning); }
+
+/* Consultation Form */
+.consultation-form {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.consultation-list {
+    margin-bottom: 20px;
+}
+
+.consultation-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.consultation-list li {
+    background: #fff;
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.consultation-list li button {
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+/* Data Input */
+.import-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.import-box {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    font-family: monospace;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button.primary { background-color: var(--accent); color: white; }
+button.secondary { background-color: #95a5a6; color: white; }
+
+/* Print Styles */
+@media print {
+    .no-print { display: none !important; }
+    body { background: white; }
+    main { padding: 0; margin: 0; width: 100%; max-width: none; }
+    .calendar-container { box-shadow: none; border: 1px solid #000; }
+    .class-block { 
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact; 
+    }
+}
