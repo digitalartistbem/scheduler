@@ -451,10 +451,16 @@ function backToTeacherSearch() {
 
 // --- Stats & Consultation ---
 
-function calculateHours(timeStr) {
+function calculateHours(timeStr, dayStr) {
+    if (!timeStr || !dayStr) return 0;
     const { span } = parseTimeRange(timeStr);
     if (!span || span <= 0) return 0;
-    return span / 2; // span is in 30min blocks
+    
+    // Get how many days this schedule happens
+    const daysCount = parseDays(dayStr).length;
+    
+    // span is in 30min blocks, so span/2 is base hours. Multiply by days.
+    return (span / 2) * daysCount; 
 }
 
 function updateStats() {
