@@ -380,7 +380,7 @@ function renderTeacherView() {
         if (item.LecDay) {
             if ((dayFilter === 'all' || dayFilter === item.LecDay) && 
                 (subjFilter === 'all' || subjFilter === item.SCode)) {
-                const hrs = calculateHours(item.LecTime);
+                const hrs = calculateHours(item.LecTime, item.LecDay);
                 html += createRow(item, index, 'LEC', item.LecDay, item.LecTime, item.LecRoom, hrs);
             }
         }
@@ -388,7 +388,7 @@ function renderTeacherView() {
         if (item.LabDay) {
             if ((dayFilter === 'all' || dayFilter === item.LabDay) && 
                 (subjFilter === 'all' || subjFilter === item.SCode)) {
-                const hrs = calculateHours(item.LabTime);
+                const hrs = calculateHours(item.LabTime, item.LabDay);
                 html += createRow(item, index, 'LAB', item.LabDay, item.LabTime, item.LabRoom, hrs);
             }
         }
@@ -467,13 +467,13 @@ function updateStats() {
     let teachingHrs = 0;
     teacherSelection.forEach(index => {
         const item = teacherData[index];
-        if (item.LecTime) teachingHrs += calculateHours(item.LecTime);
-        if (item.LabTime) teachingHrs += calculateHours(item.LabTime);
+        if (item.LecTime && item.LecDay) teachingHrs += calculateHours(item.LecTime, item.LecDay);
+        if (item.LabTime && item.LabDay) teachingHrs += calculateHours(item.LabTime, item.LabDay);
     });
 
     let consultHrs = 0;
     consultationBlocks.forEach(block => {
-        consultHrs += calculateHours(block.timeStr);
+        consultHrs += calculateHours(block.timeStr, block.day);
     });
 
     const total = teachingHrs + consultHrs;
