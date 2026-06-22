@@ -276,15 +276,12 @@ function parseTimeRange(timeStr) {
     let span = endRow - startRow;
     
     // Correction logic for "7:30-9:00P" interpreted as 7:30AM-9:00PM
-    // If start has no explicit AM/PM, and the duration is suspiciously long (> 5 hours),
-    // and shifting start to PM makes it a reasonable duration (< 6 hours), do it.
     if (!startHasAM && !startHasPM && span > 10) { 
-        // Try adding 12 hours to start (shift to PM)
         const newStartH = start.h + 12;
         const newStartRow = ((newStartH - startHour) * 2) + (start.m >= 30 ? 1 : 0) + 1;
         const newSpan = endRow - newStartRow;
         
-        if (newSpan > 0 && newSpan <= 12) { // Valid short duration
+        if (newSpan > 0 && newSpan <= 12) {
              startRow = newStartRow;
         }
     }
@@ -293,7 +290,6 @@ function parseTimeRange(timeStr) {
 }
 
 function parseTimeStr(tStr) {
-    // tStr: "8:30AM", "4:30P", "12:30"
     let isPM = tStr.includes('P');
     let isAM = tStr.includes('A');
     let raw = tStr.replace('.', ':').replace(/[^0-9:]/g, '');
@@ -308,7 +304,7 @@ function parseTimeStr(tStr) {
         else if (h === 12 || (h >= 1 && h <= 6)) isPM = true;
     }
 
-    // Fix for 12:xx AM typo (common in some systems to mean noon)
+    // Fix for 12:xx AM typo 
     if (isAM && h === 12) {
         isAM = false;
         isPM = true;
@@ -326,11 +322,9 @@ function populateFilters() {
     const daySelect = document.getElementById('teacher-day-filter');
     const subjSelect = document.getElementById('teacher-subject-filter');
     
-    // Reset
     daySelect.innerHTML = '<option value="all">All Days</option>';
     subjSelect.innerHTML = '<option value="all">All Subjects</option>';
 
-    // Days
     Object.keys(daysMap).forEach(day => {
         const opt = document.createElement('option');
         opt.value = day;
@@ -338,7 +332,6 @@ function populateFilters() {
         daySelect.appendChild(opt);
     });
 
-    // Subjects (Unique)
     const subjects = [...new Set(teacherData.map(i => i.SCode))];
     subjects.forEach(s => {
         const opt = document.createElement('option');
@@ -452,14 +445,22 @@ function backToTeacherSearch() {
 // --- Stats & Consultation ---
 
 function calculateHours(timeStr, dayStr) {
-    if (!timeStr || !dayStr) return 0;
+    // Return 0 if no valid time is present
+    if (!timeStr || timeStr === '-' || timeStr.trim() === '') return 0;
+    
     const { span } = parseTimeRange(timeStr);
     if (!span || span <= 0) return 0;
     
-    // Get how many days this schedule happens
-    const daysCount = parseDays(dayStr).length;
+    // Default multiplier is 1 (if no day is provided, we still count the base duration once)
+    let daysCount = 1; 
     
-    // span is in 30min blocks, so span/2 is base hours. Multiply by days.
+    if (dayStr && dayStr !== '-' && dayStr.trim() !== '') {
+        const parsedDays = parseDays(dayStr);
+        if (parsedDays.length > 0) {
+            daysCount = parsedDays.length; // E.g., 'MTH' becomes 2
+        }
+    }
+    
     return (span / 2) * daysCount; 
 }
 
@@ -467,8 +468,9 @@ function updateStats() {
     let teachingHrs = 0;
     teacherSelection.forEach(index => {
         const item = teacherData[index];
-        if (item.LecTime && item.LecDay) teachingHrs += calculateHours(item.LecTime, item.LecDay);
-        if (item.LabTime && item.LabDay) teachingHrs += calculateHours(item.LabTime, item.LabDay);
+        // Safely pass LecTime/LabTime. calculateHours will default safely if Day is missing
+        if (item.LecTime) teachingHrs += calculateHours(item.LecTime, item.LecDay);
+        if (item.LabTime) teachingHrs += calculateHours(item.LabTime, item.LabDay);
     });
 
     let consultHrs = 0;
